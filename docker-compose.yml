@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  #
+  # GATEWAY SERVICE
+  #
+  gateway-api:
+    container_name: gateway-api
+    build: .
+    ports:
+      - 5000:5000
+    environment:
+      - PORT=5000
+      - AUTH_HOST=0.0.0.0
+      - AUTH_PORT=5010
+      - RESTAURANTS_HOST=0.00.0
+      - RESTAURANTS_PORT=5030
