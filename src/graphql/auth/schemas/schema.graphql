@@ -1,0 +1,50 @@
+##################
+# Types
+##################
+
+type MetaToken {
+  token: String!
+}
+
+##################
+# Inputs
+##################
+
+input SignUpInput {
+  name: String!
+  email: String!
+  password: String!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+##################
+# Payloads
+##################
+
+type SignUpPayload {
+  data: User
+  meta: MetaToken
+  error: Error
+}
+
+type LoginPayload {
+  data: User
+  meta: MetaToken
+  error: Error
+}
+
+##################
+# Mutation
+##################
+
+extend type Mutation {
+  "Signup user"
+  signup(input: SignUpInput!): SignUpPayload!
+
+  "Login user"
+  login(input: LoginInput!): LoginPayload!
+}

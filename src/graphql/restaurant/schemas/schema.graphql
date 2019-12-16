@@ -1,0 +1,77 @@
+##################
+# Types
+##################
+
+type Restaurant {
+  "The restaurant ID"
+  id: ID!
+
+  "The name of a restaurant"
+  name: String!
+
+  "The rating of a restaurant"
+  rating: String!
+
+  "The address of a restaurant"
+  address: String!
+
+  "Indicates if restaurant is open"
+  open: Boolean
+
+  "The photoReference of a restaurant"
+  photoReference: String!
+
+  "The coordinate of a restaurant"
+  coord: Coord!
+}
+
+type Coord {
+  "The coordinate latitude"
+  latitude: String!
+
+  "The coordinate longitude"
+  longitude: String!
+}
+
+##################
+# Inputs
+##################
+
+input ListRestaurantByCoordInput {
+  "The coordinate latitude"
+  latitude: String!
+
+  "The coordinate longitude"
+  longitude: String!
+
+  "Cursor to paginate search"
+  pageToken: String!
+}
+
+##################
+# Payloads
+##################
+
+type MetaPageToken {
+  token: String!
+}
+
+type ListRestaurantByCoordPayload {
+  "An array of nearby restaurants"
+  data: [Restaurant]
+
+  "Meta with next pageToken"
+  meta: MetaPageToken
+
+  "Error if the request fails"
+  error: Error
+}
+
+##################
+# Query
+##################
+
+extend type Query {
+  "List restaurant by coord"
+  listRestaurantsByCoord(input: ListRestaurantByCoordInput!): ListRestaurantByCoordPayload!
+}
