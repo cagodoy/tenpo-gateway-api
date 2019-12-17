@@ -123,4 +123,8 @@ login(input: LoginInput!): LoginPayload!
 
 `make docker`: build docker.
 
-`make r`: run tenpo user service.
+`make r`: run tenpo gateway service.
+
+## TODO
+
+- [ ] implements listHistoryByUserId endpoint.
