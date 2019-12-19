@@ -6,6 +6,7 @@ import expressGraphQL from 'express-graphql';
 import schema from './graphql';
 import AuthSvc from './clients/auth';
 import RestaurantSvc from './clients/restaurants';
+import HistorySvc from './clients/history';
 
 // get AUTH_HOST env value
 const AUTH_HOST = process.env.AUTH_HOST || '';
@@ -35,6 +36,20 @@ if (RESTAURANTS_PORT === '') {
   process.exit(1);
 }
 
+// get HISTORY_HOST env value
+const HISTORY_HOST = process.env.HISTORY_HOST || '';
+if (HISTORY_HOST === '') {
+  console.log('invalid env HISTORY_HOST value');
+  process.exit(1);
+}
+
+// get HISTORY_PORT env value
+const HISTORY_PORT = process.env.HISTORY_PORT || '';
+if (HISTORY_PORT === '') {
+  console.log('invalid env HISTORY_PORT value');
+  process.exit(1);
+}
+
 // initialize express
 const app = express();
 
@@ -60,19 +75,39 @@ RestaurantSvc.config({
   port: RESTAURANTS_PORT,
 });
 
+// configure history service connection
+HistorySvc.config({
+  host: HISTORY_HOST,
+  port: HISTORY_PORT,
+});
+
 // graphql middleware
 app.use(
-  '/graphql',
-  expressGraphQL({
-    schema: schema,
-    graphiql: true,
-    formatError: (error) => ({
-      message: error.message,
-      locations: error.locations,
-      stack: error.stack ? error.stack.split('\n') : [],
-      path: error.path,
-    }),
-    pretty: true,
+  '/',
+  expressGraphQL(async (request, response, graphQLParams) => {
+    let token = null;
+    const { authorization } = request.headers;
+    if (authorization !== undefined) {
+      const [, t] = authorization.split(' ');
+      if (t !== undefined) {
+        token = t;
+      }
+    }
+
+    return {
+      schema: schema,
+      graphiql: true,
+      rootValue: {
+        token,
+      },
+      formatError: (error) => ({
+        message: error.message,
+        locations: error.locations,
+        stack: error.stack ? error.stack.split('\n') : [],
+        path: error.path,
+      }),
+      pretty: true,
+    };
   }),
 );
 
