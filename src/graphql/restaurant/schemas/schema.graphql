@@ -27,10 +27,10 @@ type Restaurant {
 
 type Coord {
   "The coordinate latitude"
-  latitude: String!
+  latitude: Float!
 
   "The coordinate longitude"
-  longitude: String!
+  longitude: Float!
 }
 
 ##################
@@ -39,29 +39,19 @@ type Coord {
 
 input ListRestaurantByCoordInput {
   "The coordinate latitude"
-  latitude: String!
+  latitude: Float!
 
   "The coordinate longitude"
-  longitude: String!
-
-  "Cursor to paginate search"
-  pageToken: String
+  longitude: Float!
 }
 
 ##################
 # Payloads
 ##################
 
-type MetaPageToken {
-  pageToken: String!
-}
-
 type ListRestaurantByCoordPayload {
   "An array of nearby restaurants"
   data: [Restaurant]
-
-  "Meta with next pageToken"
-  meta: MetaPageToken
 
   "Error if the request fails"
   error: Error
