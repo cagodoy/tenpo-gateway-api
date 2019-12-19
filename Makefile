@@ -14,11 +14,14 @@ SVC=tenpo-gateway-api
 PORT=5000
 REGISTRY_URL=$(DOCKER_USER)
 
-AUTH_HOST=0.0.0.0
+AUTH_HOST=localhost
 AUTH_PORT=5010
 
-RESTAURANTS_HOST=0.00.0
+RESTAURANTS_HOST=localhost
 RESTAURANTS_PORT=5030
+
+HISTORY_HOST=localhost
+HISTORY_PORT=5040
 
 version v:
 	@echo $(VERSION)
@@ -45,9 +48,9 @@ copy-dependencies cd:
 
 run r: typescript copy-dependencies
 	@echo "[running] Running service..."
-	@PORT=$(PORT) AUTH_HOST=$(AUTH_HOST) AUTH_PORT=$(AUTH_PORT) RESTAURANTS_HOST=$(RESTAURANTS_HOST) RESTAURANTS_PORT=$(RESTAURANTS_PORT) npm start
+	@PORT=$(PORT) AUTH_HOST=$(AUTH_HOST) AUTH_PORT=$(AUTH_PORT) RESTAURANTS_HOST=$(RESTAURANTS_HOST) RESTAURANTS_PORT=$(RESTAURANTS_PORT) HISTORY_HOST=$(HISTORY_HOST) HISTORY_PORT=$(HISTORY_PORT) npm start
 
-docker d:
+docker d: typescript copy-dependencies
 	@echo "[docker] Building image..."
 	@docker build -t $(SVC):$(VERSION) .
 	
