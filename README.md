@@ -131,4 +131,4 @@ login(input: LoginInput!): LoginPayload!
 
 ## TODO
 
-- [ ] implements listHistoryByUserId endpoint.
+- [X] implements listHistoryByUserId endpoint.
