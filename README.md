@@ -115,6 +115,10 @@ signup(input: SignUpInput!): SignUpPayload!
 login(input: LoginInput!): LoginPayload!
 ```
 
+### GraphiQL
+
+`http://localhost:5000/graphql`: for open browser IDE for exploring GraphQL.
+
 ## Commands (Development)
 
 `make prepare`: prepare repository.
